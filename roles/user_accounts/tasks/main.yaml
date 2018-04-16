@@ -1,0 +1,5 @@
+---
+- name: stack user
+  user:
+    name: stack
+    comment: stack user
