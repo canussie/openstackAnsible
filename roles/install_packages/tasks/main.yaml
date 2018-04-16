@@ -10,4 +10,5 @@
     - libvirt-daemon-driver-qemu 
     - libvirt-daemon-kvm 
     - virt-install 
-    - bridge-utils rsync 
+    - bridge-utils 
+    - rsync 
