@@ -1,1 +1,2 @@
 roles/rhn_reg/vars/
+*.retry

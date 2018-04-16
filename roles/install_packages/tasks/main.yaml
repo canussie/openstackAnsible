@@ -1,0 +1,13 @@
+---
+- name: install required packages
+  package: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libvirt-client
+    - libvirt-daemon
+    - qemu-kvm
+    - libvirt-daemon-driver-qemu 
+    - libvirt-daemon-kvm 
+    - virt-install 
+    - bridge-utils rsync 
