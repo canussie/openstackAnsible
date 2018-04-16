@@ -1,0 +1,8 @@
+---
+- name: register rhn
+  redhat_subscription:
+    state: present
+    username: "{{ username }}"
+    password: "{{ password }}" 
+    auto_attach: true
+    pool_ids: "{{ pool }}"

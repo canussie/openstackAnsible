@@ -1,0 +1,8 @@
+---
+- hosts: hypervisor
+  become: true
+  tasks:
+  - include_role:
+      name: rhn_reg
+  - include_role:
+      name: update_packages
