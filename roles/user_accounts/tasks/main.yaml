@@ -5,3 +5,7 @@
     comment: stack user
     password: "{{ password | replace('\n', '') }}"
     create_home: yes
+- name: stack user sudo access
+  lineinfile:
+    path: /etc/sudoers
+    line: 'stack	ALL=(ALL)	NOPASSWD: ALL'
