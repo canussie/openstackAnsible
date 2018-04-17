@@ -9,3 +9,10 @@
   lineinfile:
     path: /etc/sudoers
     line: 'stack	ALL=(ALL)	NOPASSWD: ALL'
+- name: stack user polkit
+  template:
+    src: polkit
+    dest: /etc/polkit-1/localauthority/50-local.d/50-libvirt-user-stack.pkla
+    owner: root
+    group: polkitd
+    mode: 0640
