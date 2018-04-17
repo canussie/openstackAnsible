@@ -3,3 +3,5 @@
   user:
     name: stack
     comment: stack user
+    password: "{{ password | replace('\n', '') }}"
+    create_home: yes
