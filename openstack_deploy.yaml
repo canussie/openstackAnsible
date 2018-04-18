@@ -1,12 +1,15 @@
 ---
 - hosts: hypervisor
-  become: true
   tasks:
-  - include_role:
-      name: rhn_reg
-  - include_role:
-      name: update_packages
-  - include_role:
-      name: install_packages
+#  - include_role: 
+#      name: rhn_reg 
+#  - include_role:
+#      name: update_packages
+#  - include_role:
+#      name: install_packages
   - include_role:
       name: user_accounts
+  - include_role:
+      name: libvirt_config
+  - include_role:
+      name: libvirt_net

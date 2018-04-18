@@ -6,3 +6,4 @@
     password: "{{ password }}" 
     auto_attach: true
     pool_ids: "{{ pool | replace('\n', '') }}"
+  become: yes

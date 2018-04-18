@@ -4,11 +4,14 @@
     name: stack
     comment: stack user
     password: "{{ password | replace('\n', '') }}"
+    groups: libvirt
     create_home: yes
+  become: yes
 - name: stack user sudo access
   lineinfile:
     path: /etc/sudoers
     line: 'stack	ALL=(ALL)	NOPASSWD: ALL'
+  become: yes
 - name: stack user polkit
   template:
     src: polkit
@@ -16,3 +19,4 @@
     owner: root
     group: polkitd
     mode: 0640
+  become: yes
