@@ -10,3 +10,15 @@
     autostart: yes
     state: active
   become: yes
+- name: define external network
+  virt_net:
+    command: define 
+    name: external
+    xml: '{{ lookup("template", "external.xml") }}'
+  become: yes
+- name: start the external network
+  virt_net:
+    name: external
+    autostart: yes
+    state: active
+  become: yes
