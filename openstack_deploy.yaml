@@ -13,3 +13,5 @@
       name: libvirt_config
   - include_role:
       name: libvirt_net
+  - include_role:
+      name: undercloud_setup

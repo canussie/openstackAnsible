@@ -1,3 +1,4 @@
 roles/rhn_reg/vars/
 roles/user_accounts/vars/
+roles/undercloud_setup/vars/
 *.retry

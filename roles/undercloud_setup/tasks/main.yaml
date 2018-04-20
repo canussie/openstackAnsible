@@ -1,0 +1,15 @@
+---
+- name: create directory for undercloud images
+  file: 
+    path: /home/undercloud
+    state: directory
+    owner: qemu
+    group: qemu
+  become: yes
+- name: copy iso
+  copy:
+    src: "{{ src_filename }}"
+    dest: /home/undercloud
+    owner: qemu
+    group: qemu
+  become: yes 
