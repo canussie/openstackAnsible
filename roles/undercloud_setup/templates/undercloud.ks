@@ -8,13 +8,13 @@ network  --bootproto=dhcp --activate
 network  --hostname=osd.ben.net
 #
 # Root password
-rootpw --iscrypted '{{ root_crypt }}'
+rootpw --iscrypted {{ root_crypt }}
 # System services
 services --disabled="chronyd,firewalld,NetworkManager"
 # System timezone
 timezone Australia/Sydney --isUtc --nontp
-user --name=stack --password="{{ stack_crypt }}" --iscrypted --gecos="Stack User"
-user --name=blewis --password="{{ blewis_crypt }}" --iscrypted --gecos="Ben Lewis"
+user --name=stack --password={{ stack_crypt }} --iscrypted --gecos="Stack User"
+user --name=blewis --password={{ blewis_crypt }} --iscrypted --gecos="Ben Lewis"
 # System bootloader configuration
 bootloader --location=mbr --boot-drive=vda
 clearpart --all --initlabel --drives=vda
@@ -55,7 +55,7 @@ mkdir -p /home/blewis/.ssh
 chmod 0700 /home/blewis/.ssh
 # root
 cat << EOF >> /root/.ssh/authorized_keys
-ssh-rsa "{{ blewis_ssh_key }}"
+ssh-rsa {{ blewis_ssh_key }}
 EOF
 chmod 0600 /root/.ssh/authorized_keys
 #ben
