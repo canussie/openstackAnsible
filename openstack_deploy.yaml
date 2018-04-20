@@ -7,11 +7,11 @@
 #      name: update_packages
 #  - include_role:
 #      name: install_packages
-  - include_role:
-      name: user_accounts
-  - include_role:
-      name: libvirt_config
-  - include_role:
-      name: libvirt_net
+#  - include_role:
+#      name: user_accounts
+#  - include_role:
+#      name: libvirt_config
+#  - include_role:
+#      name: libvirt_net
   - include_role:
       name: undercloud_setup

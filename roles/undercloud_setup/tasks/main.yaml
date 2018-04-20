@@ -13,3 +13,11 @@
     owner: qemu
     group: qemu
   become: yes 
+- name: undercloud kickstart file
+  template:
+    src: undercloud.ks
+    dest: /home/undercloud/undercloud.ks
+    owner: qemu
+    group: qemu
+    mode: 0644
+  become: yes 
