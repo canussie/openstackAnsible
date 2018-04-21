@@ -1,4 +1,9 @@
 ---
+- name: open up VNC port
+  firewalld:
+    port: 5900/tcp
+    state: enabled
+  become: yes
 - name: create directory for undercloud images
   file: 
     path: /home/undercloud
@@ -9,15 +14,29 @@
 - name: copy iso
   copy:
     src: "{{ src_filename }}"
-    dest: /home/undercloud
+    dest: "{{ install_img }}"
     owner: qemu
     group: qemu
   become: yes 
 - name: undercloud kickstart file
   template:
     src: undercloud.ks
-    dest: /home/undercloud/undercloud.ks
+    dest: "{{ undercloud_ks }}" 
     owner: qemu
     group: qemu
     mode: 0644
   become: yes 
+- name: check if undercloud libvirt image exists
+  stat:
+    path: "{{ undercloud_qcow }}"
+  register: undercloud_disk
+- name: create VM if disk doesn't exist
+  shell: |
+    virt-install --name undercloud --memory=16384 --vcpus=4 --location "{{ install_img }}" --disk size=80,path="{{ undercloud_qcow}}" --network bridge=brext --network bridge=brovc --hvm --os-variant=rhel7 --initrd-inject="{{ undercloud_ks }}" --graphics vnc,listen=0.0.0.0,password=test --noautoconsole  --extra-args  "ks=file:/undercloud.ks"
+  when: undercloud_disk.stat.exists == False
+  become: yes
+- name: wait for vnc to stop
+  wait_for: 
+    host: 192.168.1.60
+    port: 5900 
+    state: stopped
