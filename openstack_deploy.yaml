@@ -1,18 +1,12 @@
 ---
 - hosts: hypervisor
-  tasks:
-#  - include_role: 
-#      name: rhn_reg 
-#  - include_role:
-#      name: update_packages
-#  - include_role:
-#      name: install_packages
-#  - include_role:
-#      name: user_accounts
-#  - include_role:
-#      name: libvirt_config
-#  - include_role:
-#      name: libvirt_net
-  - include_role:
-      name: undercloud_setup
-
+#  - role:
+#      name: undercloud_setup
+  roles:
+    - { role: rhn_reg, tags: [ 'register' ] }
+    - { role: update_packages, tags: [ 'update_packages' ] }
+    - { role: install_packages, tags: [ 'install_packages' ] }
+    - { role: user_accounts, tags: [ 'user_accounts' ] }
+    - { role: libvirt_config, tags: [ 'libvirt_config' ] }
+    - { role: libvirt_net, tags: [ 'libvirt_net' ] }
+    - { role: undercloud_setup, tags: [ 'undercloud_setup' ] }
