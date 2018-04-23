@@ -40,3 +40,15 @@
     host: 192.168.1.60
     port: 5900 
     state: stopped
+- name: check if VM running
+  shell: virsh list |grep overcloud
+  ignore_errors: true
+  register: vmstart
+- name: set autostart
+  shell: virsh autostart undercloud
+  when: vmstart != 0 
+  become: yes
+- name: start vm
+  shell: virsh start undercloud
+  when: vmstart != 0
+  become: yes
