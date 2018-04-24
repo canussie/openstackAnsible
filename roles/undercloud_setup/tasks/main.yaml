@@ -26,29 +26,18 @@
     group: qemu
     mode: 0644
   become: yes 
-- name: check if undercloud libvirt image exists
-  stat:
-    path: "{{ undercloud_qcow }}"
-  register: undercloud_disk
+#- name: check if undercloud libvirt image exists
+#  stat:
+#    path: "{{ undercloud_qcow }}"
+#  register: undercloud_disk
+- name: get list of vms
+  virt: command=list_vms
+  register: vmList
+  become: yes
 - name: create VM if disk doesn't exist
   shell: |
     virt-install --name undercloud --memory=16384 --vcpus=4 --location "{{ install_img }}" --disk size=80,path="{{ undercloud_qcow}}" --network bridge=brext --network bridge=brovc --hvm --os-variant=rhel7 --initrd-inject="{{ undercloud_ks }}" --graphics vnc,listen=0.0.0.0,password=test --noautoconsole  --extra-args  "ks=file:/undercloud.ks"
-  when: undercloud_disk.stat.exists == False
   become: yes
-- name: wait for vnc to stop
-  wait_for: 
-    host: 192.168.1.60
-    port: 5900 
-    state: stopped
-- name: check if VM running
-  shell: virsh list |grep overcloud
-  ignore_errors: true
-  register: vmstart
-- name: set autostart
-  shell: virsh autostart undercloud
-  when: vmstart != 0 
-  become: yes
-- name: start vm
-  shell: virsh start undercloud
-  when: vmstart != 0
-  become: yes
+
+# port forward ssh to host 
+# clean up at end
