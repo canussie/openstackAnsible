@@ -1,0 +1,5 @@
+---
+
+undercloud_ip: 192.168.23.10
+undercloud_gw: 192.168.23.1
+undercloud_netmask: 255.255.255.0

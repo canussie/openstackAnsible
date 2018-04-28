@@ -4,7 +4,7 @@ auth --enableshadow --passalgo=sha512
 keyboard --vckeymap=us --xlayouts='us'
 lang en_US.UTF-8
 # Network information
-network  --bootproto=dhcp --activate
+network  --bootproto=static --ip "{{ undercloud_ip }}" --netmask "{{ undercloud_netmask }}" --gateway "{{ undercloud_gw }}" --nameserver 8.8.8.8 --activate
 network  --hostname=osd.ben.net
 #
 # Root password
