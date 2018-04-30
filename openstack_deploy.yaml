@@ -8,3 +8,9 @@
     - { role: libvirt_config, tags: [ 'libvirt_config' ] }
     - { role: libvirt_net, tags: [ 'libvirt_net' ] }
     - { role: undercloud_setup, tags: [ 'undercloud_setup' ] }
+
+- hosts: director
+  roles:
+    - { role: rhn_reg, tags: [ 'register' ] }
+    - { role: update_packages, tags: [ 'update_packages' ] }
+

@@ -4,6 +4,6 @@
     state: present
     username: "{{ username }}"
     password: "{{ password }}" 
-    auto_attach: true
     pool_ids: "{{ pool | replace('\n', '') }}"
+    force_register: yes
   become: yes

@@ -55,9 +55,15 @@ mkdir -p /home/blewis/.ssh
 chmod 0700 /home/blewis/.ssh
 # root
 cat << EOF >> /root/.ssh/authorized_keys
-ssh-rsa {{ blewis_ssh_key }}
+{{ blewis_ssh_key }}
+EOF
+# blewis
+cat << EOF >> /home/blewis/.ssh/authorized_keys
+{{ blewis_ssh_key }}
 EOF
 chmod 0600 /root/.ssh/authorized_keys
+chmod 0600 /home/blewis/.ssh/authorized_keys
+chown blewis: -R /home/blewis/.ssh/
 #ben
 echo "stack ALL=(root) NOPASSWD:ALL" | tee -a /etc/sudoers.d/stack 
 chmod 0440 /etc/sudoers.d/stack
