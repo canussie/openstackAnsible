@@ -3,21 +3,18 @@
   firewalld:
     port: 5900/tcp
     state: enabled
-  become: yes
 - name: create directory for undercloud images
   file: 
     path: /home/undercloud
     state: directory
     owner: qemu
     group: qemu
-  become: yes
 - name: copy iso
   copy:
     src: "{{ src_filename }}"
     dest: "{{ install_img }}"
     owner: qemu
     group: qemu
-  become: yes 
 - name: undercloud kickstart file
   template:
     src: undercloud.ks
@@ -25,16 +22,19 @@
     owner: qemu
     group: qemu
     mode: 0644
-  become: yes 
 - name: check if undercloud libvirt image exists
   stat:
     path: "{{ undercloud_qcow }}"
   register: undercloud_disk
+- name: add host to newhost group if doesn't exist
+  add_host:
+    hostname: "{{ undercloud_ip }}"
+    groups: newhost
+  when: undercloud_disk.stat.exists == False
 - name: create VM if disk doesn't exist
   shell: |
     virt-install --autostart --name undercloud --memory=16384 --vcpus=4 --location "{{ install_img }}" --disk size=80,path="{{ undercloud_qcow}}" --network bridge=brext --network bridge=brovc --hvm --os-variant=rhel7 --initrd-inject="{{ undercloud_ks }}" --graphics vnc,listen=0.0.0.0,password=test --noautoconsole  --extra-args  "ks=file:/undercloud.ks"
   when: undercloud_disk.stat.exists == False
-  become: yes
 - name: check until install finishedi
   virt: 
     name: undercloud
@@ -44,12 +44,10 @@
   retries: 100
   delay: 10
   when: undercloud_disk.stat.exists == False
-  become: yes
 - name: start vm
   virt:
     name: undercloud
     state: running
-  become: yes
 - name: wait until host comes up
   wait_for:
     host: "{{ undercloud_ip }}"

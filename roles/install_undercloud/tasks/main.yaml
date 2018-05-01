@@ -1,0 +1,13 @@
+---
+- name: enable repos
+  command:  subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-rh-common-rpms --enable=rhel-ha-for-rhel-7-server-rpms --enable=rhel-7-server-openstack-10-rpms
+- name: install triple
+  package: 
+    name: python-tripleoclient
+    state: present
+- name: undercloud config file
+  template:
+    src: undercloud.j2
+    dest: /home/stack/undercloud.conf
+    owner: stack
+    group: stack  

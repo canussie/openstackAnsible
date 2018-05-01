@@ -6,4 +6,3 @@
     password: "{{ password }}" 
     pool_ids: "{{ pool | replace('\n', '') }}"
     force_register: yes
-  become: yes

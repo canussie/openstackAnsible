@@ -1,0 +1,3 @@
+---
+- name: deploy undercloud
+  command: openstack undercloud install

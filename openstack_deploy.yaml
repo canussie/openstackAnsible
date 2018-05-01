@@ -8,9 +8,20 @@
     - { role: libvirt_config, tags: [ 'libvirt_config' ] }
     - { role: libvirt_net, tags: [ 'libvirt_net' ] }
     - { role: undercloud_setup, tags: [ 'undercloud_setup' ] }
+  become: yes
+
+- hosts: newhost
+  roles:
+    - { role: rhn_reg, tags: [ 'register' ] }
+  become: yes
 
 - hosts: director
   roles:
-    - { role: rhn_reg, tags: [ 'register' ] }
     - { role: update_packages, tags: [ 'update_packages' ] }
+    - { role: install_undercloud, tags: [ 'install_undercloud' ] }
+  become: yes
+
+- hosts: director
+  roles:
+    - { role: undercloud_deploy, tags: [ 'install_undercloud' ] }
 
