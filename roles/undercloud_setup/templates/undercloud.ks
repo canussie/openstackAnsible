@@ -55,6 +55,7 @@ mkdir -p /home/blewis/.ssh
 chmod 0700 /home/blewis/.ssh
 mkdir -p /home/stack/.ssh
 chmod 0700 /home/stack/.ssh
+chown -R stack: /home/stack/.ssh
 # root
 cat << EOF >> /root/.ssh/authorized_keys
 {{ blewis_ssh_key }}
