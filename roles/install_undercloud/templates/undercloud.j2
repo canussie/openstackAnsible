@@ -1,7 +1,6 @@
 [DEFAULT]
 image_path = /home/stack/images
 undercloud_hostname = osd.ben.net
-undercloud_admin_password = undercloudAdmin
 local_ip = 192.0.2.1/24
 network_gateway = 192.0.2.1
 undercloud_public_vip = 192.0.2.2
@@ -12,3 +11,6 @@ dhcp_start = 192.0.2.5
 dhcp_end = 192.0.2.24
 inspection_interface = br-ctlplane
 inspection_iprange = 192.0.2.100,192.0.2.120
+
+[auth]
+undercloud_admin_password = adminPassword

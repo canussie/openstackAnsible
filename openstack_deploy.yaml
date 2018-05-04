@@ -23,5 +23,5 @@
 
 - hosts: director
   roles:
-    - { role: undercloud_deploy, tags: [ 'install_undercloud' ] }
+    - { role: undercloud_deploy, tags: [ 'install_undercloud', 'deploy_undercloud' ] }
 

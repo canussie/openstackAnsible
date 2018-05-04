@@ -3,3 +3,15 @@
 undercloud_ip: 192.168.23.10
 undercloud_gw: 192.168.23.1
 undercloud_netmask: 255.255.255.0
+
+openstack_undercloud_env:
+  NOVA_VERSION: 1.1
+  OS_PASSWORD: adminPassword
+  OS_AUTH_URL: http://192.0.2.1:5000/v2.0
+  OS_USERNAME: admin
+  OS_TENANT_NAME: admin
+  COMPUTE_API_VERSION: 1.1
+  OS_BAREMETAL_API_VERSION: 1.15
+  OS_NO_CACHE: True
+  OS_CLOUDNAME: undercloud
+  OS_IMAGE_API_VERSION: 1
