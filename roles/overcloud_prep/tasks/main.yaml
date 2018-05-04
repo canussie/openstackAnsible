@@ -1,0 +1,18 @@
+---
+# install required packages
+- name: install images
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rhosp-director-images 
+    - rhosp-director-images-ipa
+# untar images
+- name: extract images
+  unarchive:
+    src: "{{ item }}"     
+    dest: /home/stack/images
+  remote_src: yes
+  with_items:
+    - /usr/share/rhosp-director-images/overcloud-full-latest-10.0.tar
+    - /usr/share/rhosp-director-images/ironic-python-agent-latest.tar
