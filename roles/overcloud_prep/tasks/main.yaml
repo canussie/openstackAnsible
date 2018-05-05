@@ -32,14 +32,12 @@
   register: overcloud_output
   ignore_errors: true
 - name: check ironic images
-  shell: openstack image list |grep ironic 
+  shell: openstack image list |grep bm
   environment: "{{ openstack_undercloud_env }}"
   register: ironic_output
   ignore_errors: true
-
 # if overcloud or ironic images don't exist, upload
 - name: upload images
   shell: openstack overcloud image upload --image-path /home/stack/images
   environment: "{{ openstack_undercloud_env }}"
   when: ironic_output.rc != 0 or overcloud_output.rc != 0
-

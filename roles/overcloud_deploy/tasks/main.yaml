@@ -1,0 +1,15 @@
+---
+# ssh key for stack user
+- name: gen ssh key
+  user:
+    name: stack
+    generate_ssh_key: yes
+  register: user_res
+# grab key
+- name: append public key from node to local authorized_keys
+  lineinfile:
+    line: "{{ user_res.ssh_public_key }}"
+    insertafter: EOF
+    dest: ~/.ssh/authorized_keys
+  delegate_to: 127.0.0.1
+  become: yes
