@@ -7,12 +7,39 @@
   with_items:
     - rhosp-director-images 
     - rhosp-director-images-ipa
+# create images dir
+- name: create images
+  file:
+    path: /home/stack/images
+    owner: stack
+    group: stack
+    state: directory
 # untar images
 - name: extract images
   unarchive:
     src: "{{ item }}"     
     dest: /home/stack/images
-  remote_src: yes
+    remote_src: yes
+    owner: stack
+    group: stack
   with_items:
-    - /usr/share/rhosp-director-images/overcloud-full-latest-10.0.tar
-    - /usr/share/rhosp-director-images/ironic-python-agent-latest.tar
+    - "/usr/share/rhosp-director-images/overcloud-full-10.0-20180329.1.el7ost.tar"
+    - "/usr/share/rhosp-director-images/ironic-python-agent-10.0-20180329.1.el7ost.tar"
+# check if images exist
+- name: check overcloud images
+  shell: openstack image list |grep overcloud
+  environment: "{{ openstack_undercloud_env }}"
+  register: overcloud_output
+  ignore_errors: true
+- name: check ironic images
+  shell: openstack image list |grep ironic 
+  environment: "{{ openstack_undercloud_env }}"
+  register: ironic_output
+  ignore_errors: true
+
+# if overcloud or ironic images don't exist, upload
+- name: upload images
+  shell: openstack overcloud image upload --image-path /home/stack/images
+  environment: "{{ openstack_undercloud_env }}"
+  when: ironic_output.rc != 0 or overcloud_output.rc != 0
+

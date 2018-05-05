@@ -1,21 +1,18 @@
 ---
-- name: stack user
-  user:
-    name: stack
-    comment: stack user
-    password: "{{ password | replace('\n', '') }}"
-    groups: libvirt
-  become: yes
-- name: stack user sudo access
-  lineinfile:
-    path: /etc/sudoers
-    line: 'stack	ALL=(ALL)	NOPASSWD: ALL'
-  become: yes
-- name: stack user polkit
-  template:
-    src: polkit
-    dest: /etc/polkit-1/localauthority/50-local.d/50-libvirt-user-stack.pkla
-    owner: root
-    group: polkitd
-    mode: 0640
-  become: yes
+# install required packages
+- name: install images
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rhosp-director-images 
+    - rhosp-director-images-ipa
+# untar images
+- name: extract images
+  unarchive:
+    src: "{{ item }}"     
+    dest: /home/stack/images
+  remote_src: yes
+  with_items:
+    - /usr/share/rhosp-director-images/overcloud-full-latest-10.0.tar
+    - /usr/share/rhosp-director-images/ironic-python-agent-latest.tar
