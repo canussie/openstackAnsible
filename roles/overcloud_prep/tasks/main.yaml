@@ -41,3 +41,14 @@
   shell: openstack overcloud image upload --image-path /home/stack/images
   environment: "{{ openstack_undercloud_env }}"
   when: ironic_output.rc != 0 or overcloud_output.rc != 0
+# setup vlan interface
+- name: template config file
+  template:
+    src: vlan.j2
+    dest: /etc/sysconfig/network-scripts/ifcfg-vlan10
+    owner: root
+    group: root
+  register: vlan_output
+- name: bring up NIC
+  shell: ifup vlan10
+  when: vlan_output.changed
