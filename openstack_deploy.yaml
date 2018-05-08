@@ -27,3 +27,7 @@
     - { role: overcloud_prep, tags: [ 'install_overcloud', 'prep_overcloud' ], become: yes }
     - { role: overcloud_deploy, tags: [ 'deploy_overcloud', 'install_overcloud' ] }
 
+- hosts: hypervisor
+  roles:
+    - { role: create_overcloud_vms, tags: [ 'deploy_overcloud', 'create_overcloud_vms' ], become: yes }
+

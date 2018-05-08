@@ -52,3 +52,7 @@
   wait_for:
     host: "{{ undercloud_ip }}"
     port: 22 
+- name: disable vnc port
+  firewalld:
+    port: 5900/tcp
+    state: disabled

@@ -1,0 +1,54 @@
+---
+# check if vm disks exist
+- name: check if controller qcow exists
+  stat:
+    path: /home/undercloud/overcloud-controller.qcow2
+  register: controller_file
+- name: check if controller qcow exists
+  stat:
+    path: /home/undercloud/overcloud-compute1.qcow2
+  register: compute_file
+# if controller doesn't exist, create
+- name: create controller disk
+  shell: qemu-img create -f qcow2 -o preallocation=metadata /home/undercloud/overcloud-controller.qcow2 60G
+  when: controller_file.stat.exists == False
+- name: create compute disk
+  shell: qemu-img create -f qcow2 -o preallocation=metadata /home/undercloud/overcloud-compute1.qcow2 60G
+  when: compute_file.stat.exists == False
+# xml templates
+- name: controller template
+  template:
+    src: overcloud-controller.j2
+    dest: /home/undercloud/overcloud-controller.xml
+- name: compute template
+  template:
+    src: overcloud-compute.j2
+    dest: /home/undercloud/overcloud-compute.xml
+# check if controller exists
+- name: check if overcloud controller exists
+  shell: virsh list --all |grep overcloud-controller
+  ignore_errors: True
+  register: controller_vm
+- name: check if overcloud compute exists
+  shell: virsh list --all |grep overcloud-compute1
+  ignore_errors: True
+  register: compute_vm
+#
+# define controller
+- name: define controller
+  shell: virsh create /home/undercloud/overcloud-controller.xml
+  when: controller_vm.rc != 0
+- name: define compute
+  shell: virsh create /home/undercloud/overcloud-compute.xml
+  when: compute_vm.rc != 0
+#
+# get mac of controller
+#
+- name: get mac compute node
+  shell: sudo virsh dumpxml overcloud-compute1 |grep "mac address" |cut -d= -f2|cut -d\' -f2
+  register: mac_comp
+- name: get mac controller node
+  shell: sudo virsh dumpxml overcloud-controller |grep "mac address" |cut -d= -f2|cut -d\' -f2
+  register: mac_cont
+- debug:
+    msg: "{{ mac_cont mac_comp }}"
