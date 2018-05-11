@@ -1,3 +1,35 @@
-
-{{ compute_mac }}
-{{ controller_mac }}
+{
+  "ssh-user": "stack",
+  "ssh_key": {{ ssh_key }},
+  "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
+  "host-ip": "192.168.122.1",
+  "arch": "x86_64",
+  "nodes": [
+    {
+      "pm_addr": "192.168.23.1",
+      "pm_password": {{ ssh_key }},
+      "pm_type": "pxe_ssh",
+      "mac": [
+        "{{ compute_mac }}"
+      ],
+      "cpu": "4",
+      "memory": "4096",
+      "disk": "60",
+      "arch": "x86_64",
+      "pm_user": "stack"
+    },
+    {
+      "pm_addr": "192.168.23.1",
+      "pm_password": {{ ssh_key }},
+      "pm_type": "pxe_ssh",
+      "mac": [
+        "{{ controller_mac }}"
+      ],
+      "cpu": "4",
+      "memory": "4096",
+      "disk": "60",
+      "arch": "x86_64",
+      "pm_user": "stack"
+    }
+  ]
+}

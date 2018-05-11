@@ -10,6 +10,13 @@
   shell: sudo virsh dumpxml overcloud-controller |grep "mac address" |cut -d= -f2|cut -d\' -f2
   register: mac_cont
   delegate_to: 127.0.0.1
+# ssh key for stack user
+- name: gen ssh key
+  shell: cat ~/.ssh/id_rsa
+  register: user_res
+- name: get priv key
+  set_fact: 
+    ssh_key: "{{ user_res.stdout }}"
 - name: set mac fact for controller
   set_fact:
     controller_mac: "{{ mac_cont.stdout }}"
@@ -20,3 +27,13 @@
   template:
     src: ironic.j2
     dest: /home/stack/ironic.json
+# ssh fun again
+# grab key
+#- name: append public key from node to local authorized_keys
+#  lineinfile:
+#    line: "{{ user_res.ssh_public_key }}"
+#    insertafter: EOF
+#    dest: ~/.ssh/authorized_keys
+#  delegate_to: 127.0.0.1
+#  become: yes
+
