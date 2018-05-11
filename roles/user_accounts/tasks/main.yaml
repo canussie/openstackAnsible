@@ -5,10 +5,20 @@
     comment: stack user
     password: "{{ password | replace('\n', '') }}"
     groups: libvirt
+- name: ben
+  user:
+    name: blewis
+    groups: 
+      - libvirt
+      - wheel
 - name: stack user sudo access
   lineinfile:
     path: /etc/sudoers
     line: 'stack	ALL=(ALL)	NOPASSWD: ALL'
+- name: add export to blewis user
+  lineinfile:
+    path: /home/blewis/.bash_profile
+    line: export LIBVIRT_DEFAULT_URI=qemu:///system
 - name: stack user polkit
   template:
     src: polkit

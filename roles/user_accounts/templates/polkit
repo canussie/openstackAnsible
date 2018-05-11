@@ -1,5 +1,5 @@
 [libvirt Management Access]
-Identity=unix-user:stack
+Identity=unix-group:libvirt
 Action=org.libvirt.unix.manage
 ResultAny=yes
 ResultInactive=yes

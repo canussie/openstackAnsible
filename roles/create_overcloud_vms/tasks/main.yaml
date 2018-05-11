@@ -41,14 +41,4 @@
 - name: define compute
   shell: virsh create /home/undercloud/overcloud-compute.xml
   when: compute_vm.rc != 0
-#
-# get mac of controller
-#
-- name: get mac compute node
-  shell: sudo virsh dumpxml overcloud-compute1 |grep "mac address" |cut -d= -f2|cut -d\' -f2
-  register: mac_comp
-- name: get mac controller node
-  shell: sudo virsh dumpxml overcloud-controller |grep "mac address" |cut -d= -f2|cut -d\' -f2
-  register: mac_cont
-- debug:
-    msg: "{{ mac_cont mac_comp }}"
+

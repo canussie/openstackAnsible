@@ -31,3 +31,7 @@
   roles:
     - { role: create_overcloud_vms, tags: [ 'deploy_overcloud', 'create_overcloud_vms' ], become: yes }
 
+- hosts: director
+  roles:
+    - { role: overcloud_introspect, tags: [ 'deploy_overcloud', 'introspect' ], become: yes, become_user: stack }
+

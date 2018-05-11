@@ -1,0 +1,22 @@
+---
+#
+# get mac of controller
+#
+- name: get mac compute node
+  shell: sudo virsh dumpxml overcloud-compute1 |grep "mac address" |cut -d= -f2|cut -d\' -f2
+  register: mac_comp
+  delegate_to: 127.0.0.1
+- name: get mac controller node
+  shell: sudo virsh dumpxml overcloud-controller |grep "mac address" |cut -d= -f2|cut -d\' -f2
+  register: mac_cont
+  delegate_to: 127.0.0.1
+- name: set mac fact for controller
+  set_fact:
+    controller_mac: "{{ mac_cont.stdout }}"
+- name: set mac fact for compute
+  set_fact:
+    compute_mac: "{{ mac_comp.stdout }}"
+- name: ironic template
+  template:
+    src: ironic.j2
+    dest: /home/stack/ironic.json
